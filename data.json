@@ -1,0 +1,46 @@
+{
+    "settings": {
+        "start_date": "MTc3NTQyNTIwMDAwMA==",
+        "target_date": "MTc3NjAzMDAwMDAwMA=="
+    },
+    "questions": [
+        {
+            "id": "I",
+            "type": "fallout",
+            "words": [
+                "TERMINAL",
+                "PASSWORD",
+                "SECURITY",
+                "PROTOCOL",
+                "DATABASE",
+                "ENCRYPTD",
+                "FIREWALL",
+                "HARDWARE",
+                "SOFTWARE",
+                "NETWORKS",
+                "MAINFRAM",
+                "BACKBONE",
+                "COMPILER",
+                "SYMLINKS",
+                "OVERRIDE",
+                "ANALYSIS",
+                "REGISTRY",
+                "MALWARES",
+                "INJECTOR"
+            ],
+            "a": "UFJPVE9DT0w=",
+            "code": "QUxQSEEtNzc=",
+            "err": "ДОСТЪПЪТ ОТКАЗАН."
+        },
+        {
+            "id": "II",
+            "type": "standard",
+            "q": "0JrQvtC5INC1INCw0LLRgtC+0YDRitGCINC90LAg0KLQvtC30Lgg0LrQvtC0Pw==",
+            "a": "QUQzQ1Q=",
+            "code": "QkVUQS05OQ==",
+            "err": "ГРЕШЕН ОТГОВОР."
+        }
+    ],
+    "easterEggs": [],
+    "finalPassword": ""
+}
