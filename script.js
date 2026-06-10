@@ -4,6 +4,7 @@ let currentQIndex = -1;
 let falloutTries = 4;
 let isFalloutLocked = false;
 let currentFalloutWords = [];
+let currentFalloutTarget = "";
 
 const tickAudio = document.getElementById('tick-audio');
 const hoverAudio = document.getElementById('hover-audio');
@@ -172,10 +173,12 @@ function initFalloutGame(q) {
     const log = document.getElementById('fallout-log');
     log.innerHTML = '';
 
-    const targetWord = fromBase64(q.a);
-    let wordPool = q.words.filter(w => w !== targetWord);
-    wordPool = wordPool.sort(() => 0.5 - Math.random()).slice(0, 7);
-    currentFalloutWords = [targetWord, ...wordPool].sort(() => 0.5 - Math.random());
+    // Взимаме 14 СЛУЧАЙНИ думи
+    let shuffledPool = [...q.words].sort(() => 0.5 - Math.random());
+    currentFalloutWords = shuffledPool.slice(0, 14);
+
+    // Избираме една от тези 14 да бъде вярната парола
+    currentFalloutTarget = currentFalloutWords[Math.floor(Math.random() * currentFalloutWords.length)];
 
     generateFalloutGrid(q);
 }
@@ -298,9 +301,7 @@ window.processBracket = function (element, rawText) {
         updateAttemptsDisplay();
         log.innerHTML += `>${rawText}<br>>Allowance replenished.<br>> <span class="block-cursor" id="log-cursor"></span>`;
     } else {
-        const q = gameData.questions[currentQIndex];
-        const target = fromBase64(q.a);
-        let duds = currentFalloutWords.filter(w => w !== target && !document.getElementById(`word-${w}`).classList.contains('disabled'));
+        let duds = currentFalloutWords.filter(w => w !== currentFalloutTarget && !document.getElementById(`word-${w}`).classList.contains('disabled'));
 
         if (duds.length > 0) {
             let dudToRemove = duds[Math.floor(Math.random() * duds.length)];
@@ -332,7 +333,7 @@ window.processSymbolClick = function (char) {
 window.processFalloutGuess = function (guess) {
     if (isFalloutLocked || falloutTries <= 0) return;
     const q = gameData.questions[currentQIndex];
-    const target = fromBase64(q.a);
+    const target = currentFalloutTarget;
     const log = document.getElementById('fallout-log');
 
     log.innerHTML = log.innerHTML.replace('<span class="block-cursor" id="log-cursor"></span>', '');
