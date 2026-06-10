@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Share+Tech+Mono&display=swap&subset=cyrillic');
+
 :root {
-    --doom-green: #33ff00;
-    /* По-стегнат блясък, за да се чете текста по-ясно */
-    --doom-glow: 0 0 4px rgba(51, 255, 0, 0.9), 0 0 8px rgba(51, 255, 0, 0.5);
+    --doom-green: #2aff00;
+    --doom-glow: 0 0 4px rgba(42, 255, 0, 0.9), 0 0 8px rgba(42, 255, 0, 0.5);
     --error-red: #ff003c;
-    --bg-dark: #020602;
+    --glitch-color: #ff00ea;
+    --bg-dark: #000;
 }
 
 body {
@@ -20,19 +22,27 @@ body {
     text-transform: uppercase;
 }
 
+/* CRT Ефект със сканиращи линии (ПЛЪТЕН ЕФЕКТ КАТО НА СНИМКАТА) */
 body::after {
     content: " ";
+    display: block;
     position: absolute;
-    inset: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), radial-gradient(circle, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.8) 100%);
-    background-size: 100% 4px, 100% 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
     z-index: 10;
+    background-size: 100% 2px, 3px 100%;
+    /* 2px прави линиите да режат буквите перфектно */
     pointer-events: none;
 }
 
+/* Блоков курсор */
 .block-cursor {
     display: inline-block;
-    width: 12px;
+    width: 10px;
     height: 1.1em;
     background-color: var(--doom-green);
     animation: blink 1s step-end infinite;
@@ -47,7 +57,9 @@ body::after {
     }
 }
 
-/* Login & Terminals */
+/* -------------------------------------
+   НАЧАЛНИ ЕКРАНИ
+-------------------------------------- */
 #start-overlay {
     position: absolute;
     inset: 0;
@@ -56,34 +68,24 @@ body::after {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 200;
+    z-index: 100;
     cursor: pointer;
     transition: opacity 0.5s;
 }
 
 .system-ready-text {
-    font-size: 2rem;
-    margin-bottom: 30px;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
     letter-spacing: 2px;
     text-shadow: var(--doom-glow);
+    animation: pulse-text 2s infinite;
+    /* ПРЕМИГВАНЕ */
 }
 
 .click-engage {
     font-size: 1.2rem;
-    animation: pulse 2s infinite;
     opacity: 0.7;
-}
-
-@keyframes pulse {
-
-    0%,
-    100% {
-        opacity: 0.3;
-    }
-
-    50% {
-        opacity: 1;
-    }
+    animation: pulse-text 2s infinite;
 }
 
 #login-screen,
@@ -100,35 +102,39 @@ body::after {
 
 .login-container {
     text-align: left;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     text-shadow: var(--doom-glow);
 }
 
 .login-row {
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 #terminal-screen {
     justify-content: flex-start;
     align-items: flex-start;
-    padding: 50px;
-    font-size: 1.2rem;
+    padding: 40px;
+    font-size: 1.1rem;
+    overflow-y: auto;
 }
 
 .terminal-line {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     text-shadow: var(--doom-glow);
 }
 
-/* Main UI */
+/* -------------------------------------
+   ГЛАВЕН ИНТЕРФЕЙС
+-------------------------------------- */
 #main-ui {
+    text-align: center;
+    z-index: 5;
+    position: relative;
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 5;
 }
 
 .main-content {
@@ -136,102 +142,129 @@ body::after {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-top: -100px;
+    margin-top: -60px;
 }
 
+/* ЗАГЛАВИЕ КАТО НА СНИМКАТА (OSWALD) */
 #header {
-    font-size: 4rem;
-    letter-spacing: 5px;
-    text-shadow: var(--doom-glow);
-    margin-bottom: 10px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 3rem;
+    letter-spacing: 0.5rem;
+    text-shadow: 0 0 10px var(--doom-green);
+    margin-bottom: 15px;
 }
 
+/* БРОЯЧ (ПОДРАВНЕНО ДВОЕТОЧИЕ) */
 #timer {
     display: flex;
-    align-items: center;
     gap: 20px;
-    font-size: 6rem;
-    margin: 20px 0 40px 0;
-    text-shadow: var(--doom-glow);
+    justify-content: center;
+    align-items: flex-start;
+    /* Подравнява ги по горния ръб */
+    font-size: 5rem;
     font-weight: bold;
+    text-shadow: 0 0 15px var(--doom-green);
+    margin-bottom: 30px;
 }
 
 .unit {
     display: flex;
     flex-direction: column;
     align-items: center;
+    line-height: 1;
+}
+
+.colon {
+    line-height: 1;
+    margin-top: -4px;
+    /* Лека корекция за перфектен център */
 }
 
 .label {
-    font-size: 1.2rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1rem;
     opacity: 0.6;
-    margin-top: -15px;
-    letter-spacing: 2px;
+    letter-spacing: 0.2rem;
+    margin-top: 10px;
+    color: #fff;
     text-shadow: none;
     font-weight: normal;
 }
 
-.colon {
-    margin-top: -40px;
-}
-
-/* Final Password Zone */
+/* ЗОНА ЗА КОД */
 #final-zone {
     border: 1px solid var(--doom-green);
-    padding: 30px 40px;
-    background: rgba(0, 20, 0, 0.3);
-    box-shadow: inset 0 0 20px rgba(51, 255, 0, 0.1);
+    padding: 20px 30px;
+    background: rgba(0, 20, 0, 0.4);
+    box-shadow: inset 0 0 15px rgba(42, 255, 0, 0.15);
     display: inline-block;
-    text-align: center;
 }
 
 .final-label {
-    font-size: 0.9rem;
-    opacity: 0.8;
-    margin-bottom: 15px;
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-bottom: 12px;
     letter-spacing: 1px;
 }
 
 #final-password {
-    width: 200px;
+    background: #000;
+    border: 1px solid var(--doom-green);
+    color: var(--doom-green);
+    font-family: 'Share Tech Mono', monospace;
     font-size: 1.5rem;
-    letter-spacing: 3px;
+    padding: 10px;
+    text-align: center;
+    width: 200px;
+    text-transform: uppercase;
+    margin-right: 15px;
     display: inline-block;
-    margin: 0;
 }
 
 #final-btn {
-    font-size: 1.2rem;
+    background: var(--doom-green);
+    /* ПЛЪТНО ЗЕЛЕН БУТОН */
+    color: #000;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.1rem;
     display: inline-block;
-    margin-left: 15px;
     padding: 10px 20px;
     font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-/* Bottom Nav */
+#final-btn:hover {
+    background: #fff;
+    box-shadow: 0 0 15px #fff;
+}
+
+/* Навигационни кръгчета */
 #question-nav {
-    position: absolute;
-    bottom: 50px;
+    position: fixed;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 20px;
-    justify-content: center;
+    gap: 15px;
+    z-index: 5;
 }
 
 .nav-circle {
-    width: 60px;
-    height: 60px;
-    border: 2px solid var(--doom-green);
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
+    border: 2px solid var(--doom-green);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.8rem;
+    font-size: 1.1rem;
+    font-weight: bold;
     cursor: pointer;
-    background: #000;
-    transition: 0.3s;
-    box-shadow: 0 0 10px rgba(51, 255, 0, 0.2);
+    background: rgba(0, 0, 0, 0.8);
+    transition: all 0.3s;
+    box-shadow: 0 0 8px rgba(42, 255, 0, 0.15);
 }
 
 .nav-circle:hover {
@@ -240,27 +273,62 @@ body::after {
     box-shadow: var(--doom-glow);
 }
 
-/* Modal & Inputs */
+/* -------------------------------------
+   МОДАЛНИ ПРОЗОРЦИ
+-------------------------------------- */
+.popup-modal,
 .modal {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    z-index: 300;
-    justify-content: center;
-    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 5, 0, 0.98);
+    border: 2px solid var(--doom-green);
+    padding: 25px 35px;
+    z-index: 200;
+    width: 95%;
+    max-width: 900px;
+    flex-direction: column;
+    box-shadow: var(--doom-glow);
 }
 
-.modal-content {
-    background: #020802;
-    border: 2px solid var(--doom-green);
-    padding: 30px;
-    width: 95%;
-    max-width: 950px;
-    box-shadow: var(--doom-glow);
+#answer-input {
+    background: #000;
+    border: 1px solid var(--doom-green);
+    color: var(--doom-green);
+    font-family: inherit;
+    font-size: 1.1rem;
+    padding: 8px;
+    width: 60%;
+    text-align: center;
+    margin: 10px auto;
+    display: block;
+    transition: 0.3s;
+}
+
+#answer-input:disabled {
+    opacity: 0.5;
+    border-color: #555;
+}
+
+#error-msg {
+    color: var(--error-red);
+    font-size: 0.85rem;
+    min-height: 20px;
+    text-align: center;
+    margin-top: 10px;
+    text-shadow: 0 0 5px var(--error-red);
+}
+
+#success-msg {
+    color: var(--doom-green);
+    font-size: 1.3rem;
+    font-weight: bold;
+    min-height: 30px;
+    text-align: center;
+    text-shadow: var(--doom-glow);
+    margin: 15px 0 10px 0;
 }
 
 #close-modal:hover {
@@ -268,88 +336,34 @@ body::after {
     text-shadow: 0 0 10px var(--error-red);
 }
 
-input {
-    background: #000;
-    border: 1px solid var(--doom-green);
-    color: var(--doom-green);
-    font-family: inherit;
-    font-size: 1.2rem;
-    padding: 10px;
-    text-align: center;
-    text-transform: uppercase;
-}
-
-button {
-    background: #000;
-    border: 1px solid var(--doom-green);
-    color: var(--doom-green);
-    padding: 10px 20px;
-    font-family: inherit;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    background: var(--doom-green);
-    color: #000;
-    box-shadow: var(--doom-glow);
-}
-
-/* Fallout Matrix */
+/* -------------------------------------
+   FALLOUT МАТРИЦА
+-------------------------------------- */
 #fallout-container {
     text-align: left;
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     line-height: 1.2;
-    text-shadow: 0 0 4px rgba(51, 255, 0, 0.6);
+    text-shadow: 0 0 4px rgba(42, 255, 0, 0.5);
+    width: 100%;
 }
 
-/* Обновяваме предишните, за да включват и скобите */
-.fallout-word, .fallout-symbol 
-{ 
-    cursor: pointer; 
-    display: inline-block;
-}
-
-.fallout-word:hover, .fallout-symbol:hover 
-{ 
-    background: var(--doom-green); 
-    color: #000; 
-    text-shadow: none;
-}
-
-.disabled 
-{ 
-    pointer-events: none; 
-    opacity: 0.4; 
-}
-
-.bracket-group {
-    cursor: pointer;
-    display: inline-block;
-}
-
-.bracket-group:hover {
-    background: var(--doom-green);
-    color: #000;
-    text-shadow: none;
-}
-
-.used-bracket {
-    pointer-events: none;
-    opacity: 0.5;
+.fallout-header {
+    font-size: 1rem;
+    border-bottom: 1px dashed var(--doom-green);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .fallout-main-area {
     display: flex;
     justify-content: space-between;
-    gap: 20px;
-    margin-top: 15px;
+    gap: 15px;
+    margin-top: 10px;
 }
 
 .fallout-col {
     flex: 1;
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     letter-spacing: 2px;
 }
 
@@ -361,7 +375,7 @@ button:hover {
 
 .hex-code {
     opacity: 0.7;
-    margin-right: 15px;
+    margin-right: 12px;
     white-space: nowrap;
     letter-spacing: 1px;
 }
@@ -371,34 +385,37 @@ button:hover {
 }
 
 .fallout-word,
-.fallout-symbol {
+.fallout-symbol,
+.bracket-group {
     cursor: pointer;
     display: inline-block;
 }
 
 .fallout-word:hover,
-.fallout-symbol:hover {
+.fallout-symbol:hover,
+.bracket-group:hover {
     background: var(--doom-green);
     color: #000;
     text-shadow: none;
 }
 
-.disabled {
+.disabled,
+.used-bracket {
     pointer-events: none;
-    opacity: 0.4;
+    opacity: 0.35;
 }
 
 .fallout-log-area {
     flex: 0.8;
-    padding-left: 20px;
+    padding-left: 15px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    font-size: 1rem;
+    font-size: 0.95rem;
 }
 
 #fallout-log {
-    max-height: 280px;
+    max-height: 260px;
     overflow-y: hidden;
     display: flex;
     flex-direction: column;
@@ -408,23 +425,47 @@ button:hover {
 
 .util-btn {
     display: none;
-    margin-top: 15px;
+    margin-top: 12px;
     width: 100%;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: bold;
-}
-
-#error-msg {
-    color: var(--error-red);
-    margin-top: 15px;
-    text-align: center;
-    text-shadow: 0 0 10px var(--error-red);
-}
-
-#success-msg {
+    background: #000;
+    border: 1px solid var(--doom-green);
     color: var(--doom-green);
-    margin-top: 15px;
-    font-size: 1.8rem;
-    text-align: center;
-    text-shadow: var(--doom-glow);
+    padding: 10px;
+    cursor: pointer;
+}
+
+.util-btn:hover {
+    background: var(--doom-green);
+    color: #000;
+}
+
+/* -------------------------------------
+   АНИМАЦИИ
+-------------------------------------- */
+@keyframes pulse-text {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+@keyframes glitch-anim {
+    0% {
+        transform: translate(-50%, 2px);
+    }
+
+    50% {
+        transform: translate(-50%, -2px);
+    }
+
+    100% {
+        transform: translate(-50%, 0);
+    }
 }
